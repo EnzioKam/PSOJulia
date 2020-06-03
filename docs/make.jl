@@ -3,7 +3,7 @@ push!(LOAD_PATH,"../src/")
 using Documenter, PSOJulia
 
 makedocs(
-    sitename="PSOJulia",
+    sitename = "PSOJulia",
     format = Documenter.HTML(prettyurls = false),
     pages = [
         "index.md",
@@ -11,4 +11,8 @@ makedocs(
         "utilities.md",
         "functions.md"
     ]
+)
+
+deploydocs(
+    repo = "github.com/EnzioKam/PSOJulia.git"
 )
