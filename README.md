@@ -1,4 +1,4 @@
-# PSO_julia
+# PSOJulia
 
 Particle Swarm Optimisation implemented in Julia.
 
