@@ -76,7 +76,7 @@ function sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up,
         X_current = view(X, :, :, iternum)
         social = eta * c1 * u1(n, 1).*(X_current - pbest)
         cognitive = eta * c2 * u2(n, 1).*(X_current .- view(glbest, :, iternum))
-        noise = repeat(sig * eta * randn(n, 1), 1, en)
+        noise = sig * eta * randn(n, en)
         V = inertia - social - cognitive + noise
         Xposu = X_current + eta * V
         Xpos = max.(min.(up, Xposu), lb)
