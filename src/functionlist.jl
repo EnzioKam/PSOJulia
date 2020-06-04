@@ -1,2 +1,7 @@
+include("functions/ackley.jl")
+include("functions/beale.jl")
+include("functions/bohachevsky1.jl")
+include("functions/bohachevsky2.jl")
+include("functions/bohachevsky3.jl")
 include("functions/sphere.jl")
 include("functions/sumsquare.jl")

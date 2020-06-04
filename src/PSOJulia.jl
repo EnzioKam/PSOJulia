@@ -8,7 +8,7 @@ module PSOJulia
 
 export sPSO, PSO
 export generate_random_matrix
-export sphere, sumsquare
+export ackley, beale, bohachevsky1, bohachevsky2, bohachevsky3, sphere, sumsquare
 
 include("algorithm.jl")
 include("utilities.jl")
