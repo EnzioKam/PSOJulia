@@ -61,43 +61,44 @@ function sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up,
     V = V_initial
     pbest = X_initial
     bestposrec = zeros(n, sizeN)
-    pbestvalue = zeros(en)
     iternum = 1
-    for i = 1:en
-        pbestvalue[i] = fobj(pbest[:, i])
-    end
+    pbestvalue = mapslices(fobj, X_initial, dims=1)
 
     glbestvalue, ind = findmin(pbestvalue)
     glbest = Matrix{Float64}(undef, n, N)
-    glbest[:, iternum] = pbest[:, ind]
+    glbest[:, iternum] = pbest[:, ind[2]]
     histvalue = zeros(N+1)
 
     while iternum < N
         histvalue[iternum] = glbestvalue
 
+        inertia = (1 - eta*w) * V
+        X_current = view(X, :, :, iternum)
+        social = eta * c1 * u1(n, 1).*(X_current - pbest)
+        cognitive = eta * c2 * u2(n, 1).*(X_current .- view(glbest, :, iternum))
+        noise = repeat(sig * eta * randn(n, 1), 1, en)
+        V = inertia - social - cognitive + noise
+        Xposu = X_current + eta * V
+        Xpos = max.(min.(up, Xposu), lb)
+
+        X[:, :, iternum + 1] = Xpos
+        fval = mapslices(fobj, Xpos, dims=1)
+
+        cond = fval .< pbestvalue
         for i = 1:en
-            inertia = (1 - eta*w) * V[:,i]
-            change = eta * (c1 * u1(n, 1).*(X[:, i, iternum] - pbest[:,i]) + c2 * u2(n, 1).*(X[:,i,iternum] - glbest[:,iternum]))
-            noise = sig * eta * randn(n, 1)
-            V[:, i] = inertia - change + noise
-            xposu = X[:, i, iternum] + eta * V[:, i]
-            xpos = max.(min.(up, xposu), lb);
-
-            X[:, i, iternum + 1] = xpos
-            fval = fobj(xpos)
-
-            if fval < pbestvalue[i]
-                pbest[:, i] = xpos
-                pbestvalue[i] = fval
+            if cond[i]
+                pbest[:, i] = view(Xpos, :, i)
+                pbestvalue[i] = fval[i]
             end
         end
 
         iternum += 1
-        glbest[:, iternum] = glbest[:, iternum - 1];
         fbest, ind = findmin(pbestvalue)
         if fbest < glbestvalue
-            glbest[:, iternum] = pbest[:, ind];
+            glbest[:, iternum] = pbest[:, ind[2]];
             glbestvalue = fbest;
+        else
+            glbest[:, iternum] = glbest[:, iternum - 1]
         end
 
         if iternum == allN[tp] - 1

@@ -7,7 +7,7 @@ functions that can be used as objective functions.
 module PSOJulia
 
 export sPSO, PSO
-export generate_random_matrix
+export generate_random_matrix, generate_particles, generate_velocities
 export ackley, beale, bohachevsky1, bohachevsky2, bohachevsky3, booth, branin,
     bukin6, colville, dixonprice, dropwave, sphere, sumsquare
 

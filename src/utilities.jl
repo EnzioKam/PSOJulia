@@ -23,3 +23,23 @@ function generate_random_matrix(A, B)
     @assert size(A) == size(B) "Unequal matrix sizes"
     return rand(size(A)...) .* (B - A) + A
 end
+
+"""
+    generate_particles(A, B)
+
+Wrapper function that calls [`generate_random_matrix(A, B)`](@ref) to generate initial
+particle positions.
+"""
+function generate_particles(A, B)
+    return generate_random_matrix(A, B)
+end
+
+"""
+    generate_velocities(A, B)
+
+Wrapper function that calls [`generate_random_matrix(-(B-A), B-A)`](@ref) to generate initial
+particle velocities.
+"""
+function generate_velocities(A, B)
+    return generate_random_matrix(-(B-A), B-A)
+end
