@@ -18,5 +18,5 @@ julia> beale([1.0; 2.0])
 function beale(x::Vector{Float64})
     @assert length(x) == 2 "beale can only take in Vector{Float64} of length 2."
     x1, x2 = x
-    return (1.5-x1+x1*x2)^2 + (2.25-x1+x1*x2^2)^2 + (2.65-x1+x1*x2^3)^2
+    return (1.5 - x1 + x1 * x2)^2 + (2.25 - x1 + x1 * x2^2)^2 + (2.65 - x1 + x1 * x2^3)^2
 end

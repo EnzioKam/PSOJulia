@@ -18,6 +18,6 @@ julia> bohachevsky2([1.5; 2.2; 3.6; 4.7])
 function bohachevsky2(x::Vector{Float64})
     x1 = x[begin:end-1]
     x2 = x[begin+1:end]
-    total = x1.^2 + 2*(x2.^2) - 0.3*cos.(3*pi*x1).*cos.(4*pi*x2) .+ 0.3
+    total = x1.^2 + 2 * (x2.^2) - 0.3 * cos.(3 * pi * x1) .* cos.(4 * pi * x2) .+ 0.3
     return sum(total)
 end

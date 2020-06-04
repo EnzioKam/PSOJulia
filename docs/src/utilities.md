@@ -4,6 +4,7 @@
 Pages = ["utilities.md"]
 ```
 
-```@docs
-generate_random_matrix(A, B)
+```@autodocs
+Modules = [PSOJulia]
+Pages = ["utilities.jl"]
 ```

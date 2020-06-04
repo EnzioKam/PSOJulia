@@ -30,30 +30,9 @@ and Surjanovic and Bingham[^2]. A total of 30 functions from the package are lis
 Pages = ["functions.md"]
 ```
 
-```@docs
-ackley(x::Vector{Float64})
-```
-
-```@docs
-beale(x::Vector{Float64})
-```
-
-```@docs
-bohachevsky1(x::Vector{Float64})
-```
-
-```@docs
-bohachevsky2(x::Vector{Float64})
-```
-
-```@docs
-bohachevsky3(x::Vector{Float64})
-```
-
-```@docs
-sphere(x::Vector{Float64})
-```
-
-```@docs
-sumsquare(x::Vector{Float64})
+```@autodocs
+Modules = [PSOJulia]
+Pages = ["ackley.jl", "beale.jl", "bohachevsky1.jl", "bohachevsky2.jl", "bohachevsky3.jl", 
+    "booth.jl", "branin.jl", "bukin6.jl", "colville.jl", "dixonprice.jl", "dropwave.jl", 
+    "sphere.jl", "sumsquare.jl"]
 ```
