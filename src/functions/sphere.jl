@@ -11,7 +11,7 @@ recommended bounds are ``-100 \\leq x_i \\leq 100``.
 # Examples
 ```jldoctest
 julia> sphere([1.0; 2.0; 3.0; 4.0])
-30
+30.0
 ```
 """
 function sphere(x::Vector{Float64})

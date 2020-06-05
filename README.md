@@ -19,7 +19,7 @@ using PSOJulia
 
 - [x] Implementing PSO, sPSO
 - [x] Set up automatic documentation with Documenter.jl
-- [ ] Implementing function definitions (2 / 30)
+- [ ] Implementing function definitions (20 / 30)
 - [ ] Testing the algorithms
 - [ ] Code cleanup, structuring processes and functions
 - [ ] Benchmarking

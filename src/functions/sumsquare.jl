@@ -11,7 +11,7 @@ recommended bounds are ``-5.12 \\leq x_i \\leq 5.12``.
 # Examples
 ```jldoctest
 julia> sumsquare([1.0; 2.0; 3.0; 4.0])
-100
+100.0
 ```
 """
 function sumsquare(x::Vector{Float64})

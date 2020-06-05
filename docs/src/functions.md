@@ -34,5 +34,6 @@ Pages = ["functions.md"]
 Modules = [PSOJulia]
 Pages = ["ackley.jl", "beale.jl", "bohachevsky1.jl", "bohachevsky2.jl", "bohachevsky3.jl", 
     "booth.jl", "branin.jl", "bukin6.jl", "colville.jl", "dixonprice.jl", "dropwave.jl", 
-    "sphere.jl", "sumsquare.jl"]
+    "easom.jl", "eggholder.jl", "goldsteinprice.jl", "griewank.jl", "matyas.jl", "mccormick.jl", 
+    "michalewicz5.jl", "sphere.jl", "sumsquare.jl"]
 ```
