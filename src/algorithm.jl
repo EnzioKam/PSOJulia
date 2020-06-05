@@ -19,8 +19,8 @@ of their corresponding positions.
 - `sig`: standard deviation parameter
 - `fobj`: objective function to be optimised
 - `allN`: list of iteration numbers to record results at
-- `up`: vector of upper bounds for each dimension
-- `lb`: vector of lower bounds for each dimension
+- `up`: scalar / vector of upper bounds for each dimension
+- `lb`: scalar / vector of lower bounds for each dimension
 
 # Examples
 ```jldoctest
@@ -37,11 +37,12 @@ julia> fobj = sphere;
 julia> dim = 5;
 julia> lb, up = -100.0, 100.0;
 julia> A, B = matrix_bounds(lb, up, en, dim);
-julia> v, p = sPSO(generate_particles(A, B), generate_velocities(A, B), 
-                        w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb);
+julia> v, p = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim), 
+                    w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb);
 ```
 """
-function sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb)
+function sPSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64, c1::Float64,
+                c2::Float64, u1, u2, eta::Float64, sig::Float64, fobj, allN::Vector{Int64}, up, lb)
     sizeN = length(allN)
     N = allN[end]
     bestvaluerec = zeros(sizeN, 1)
@@ -110,6 +111,7 @@ end
 
 Wrapper function that calls sPSO with eta=1 and sig=0. See [`sPSO`](@ref).
 """
-function PSO(X_initial, V_initial, w, c1, c2, u1, u2, fobj, allN, up, lb)
-    return sPSO(X_initial, V_initial, w, c1, c2, u1, u2, 1, 0, fobj, allN, up, lb)
+function PSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64, c1::Float64,
+            c2::Float64, u1, u2, fobj, allN::Vector{Int64}, up, lb)
+    return sPSO(X_initial, V_initial, w, c1, c2, u1, u2, 1., 0., fobj, allN, up, lb)
 end

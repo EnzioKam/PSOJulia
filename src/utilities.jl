@@ -59,11 +59,11 @@ function matrix_bound(lb::Vector{Float64}, up::Vector{Float64}, en::Int64, dim::
 end
 
 """
-    generate_random_matrix(A, B)
+    generate_random_matrix(A::Matrix{Float64}, B::Matrix{Float64})
 
 Generates a matrix X of the same size as the input arguments A and B, 
 each element containing a uniform random variable where each entry 
-``X_{i,j}`` contains ``U \\sim (A_{i,j}, B_{i,j})``. Used in [`sPSO`](@ref).
+``X_{i,j}`` contains ``U \\sim (A_{i,j}, B_{i,j})``.
 
 # Examples
 ```jldoctest
@@ -79,27 +79,65 @@ julia> generate_random_matrix(B, C)
 ERROR: AssertionError: Unequal matrix sizes
 ```
 """
-function generate_random_matrix(A, B)
+function generate_random_matrix(A::Matrix{Float64}, B::Matrix{Float64})
     @assert size(A) == size(B) "Unequal matrix sizes"
     return rand(size(A)...) .* (B - A) + A
 end
 
 """
-    generate_particles(A, B)
+    generate_random_matrix(A::Float64, B::Float64, en::Int64, dim::Int64)
 
-Wrapper function that calls [`generate_random_matrix(A, B)`](@ref) to generate initial
-particle positions.
+Generates a matrix X of size (dim, en) each element containing a uniform 
+random variable where each entry ``X_{i,j}`` contains ``U \\sim (A, B)``.
+
+# Examples
+```jldoctest
+julia> generate_random_matrix(-10.0, 10.0, 3, 2)
+2×3 Array{Float64,2}:
+ 7.42334   0.601355  -0.882865
+ 6.26274  -4.92114    8.9034
+```
 """
-function generate_particles(A, B)
+function generate_random_matrix(A::Float64, B::Float64, en::Int64, dim::Int64)
+    return rand(dim, en) .* (B - A) .+ A
+end
+
+"""
+    generate_particles(A::Matrix{Float64}, B::Matrix{Float64})
+
+Wrapper function that calls [`generate_random_matrix(A, B)`](@ref generate_random_matrix(A::Matrix{Float64}, B::Matrix{Float64}))
+to generate initial particle positions.
+"""
+function generate_particles(A::Matrix{Float64}, B::Matrix{Float64})
     return generate_random_matrix(A, B)
 end
 
 """
-    generate_velocities(A, B)
+    generate_particles(A::Float64, B::Float64, en::Int64, dim::Int64)
 
-Wrapper function that calls [`generate_random_matrix(-(B-A), B-A)`](@ref) to generate initial
-particle velocities.
+Wrapper function that calls [`generate_random_matrix(A, B, en, dim)`](@ref generate_random_matrix(A::Float64, B::Float64, en::Int64, dim::Int64))
+to generate initial particle positions.
 """
-function generate_velocities(A, B)
+function generate_particles(A::Float64, B::Float64, en::Int64, dim::Int64)
+    return generate_random_matrix(A, B, en, dim)
+end
+
+"""
+    generate_velocities(A::Matrix{Float64}, B::Matrix{Float64})
+
+Wrapper function that calls [`generate_random_matrix(-(B-A), B-A)`](@ref generate_random_matrix(A::Matrix{Float64}, B::Matrix{Float64}))
+to generate initial particle velocities.
+"""
+function generate_velocities(A::Matrix{Float64}, B::Matrix{Float64})
     return generate_random_matrix(-(B-A), B-A)
+end
+
+"""
+    generate_velocities(A::Float64, B::Float64, en::Int64, dim::Int64)
+
+Wrapper function that calls [`generate_random_matrix(-(B-A), B-A, en, dim)`](@ref generate_random_matrix(A::Float64, B::Float64, en::Int64, dim::Int64))
+to generate initial particle velocities.
+"""
+function generate_velocities(A::Float64, B::Float64, en::Int64, dim::Int64)
+    return generate_random_matrix(-(B-A), B-A, en, dim)
 end

@@ -16,5 +16,5 @@ dim = 5
 lb, up = -100.0, 100.0
 A, B = matrix_bound(lb, up, en, dim)
 
-@benchmark sPSO($(generate_particles(A, B)), $(generate_velocities(A, B)), 
+@benchmark sPSO($(generate_particles(lb, up, en, dim)), $(generate_velocities(lb, up, en, dim)), 
                 w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb)
