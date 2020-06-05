@@ -13,10 +13,8 @@ sig = 0.5
 fobj = sphere
 
 dim = 5
-lb = fill(-100, dim)
-up = fill(100, dim)
-A = repeat(lb, 1, en)
-B = repeat(up, 1, en)
+lb, up = -100.0, 100.0
+A, B = matrix_bound(lb, up, en, dim)
 
 @benchmark sPSO($(generate_particles(A, B)), $(generate_velocities(A, B)), 
                 w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb)

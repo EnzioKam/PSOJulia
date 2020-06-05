@@ -7,7 +7,6 @@ Runs the smoothed Particle Swarm Optimisation algorithm on the list of inputs.
 The function returns a vector of recorded global best value estimates, and a matrix
 of their corresponding positions.
 
-...
 # Arguments
 - `X_initial`: matrix of initial starting particle positions
 - `V_initial`: matrix of initial starting particle velocities
@@ -22,31 +21,24 @@ of their corresponding positions.
 - `allN`: list of iteration numbers to record results at
 - `up`: vector of upper bounds for each dimension
 - `lb`: vector of lower bounds for each dimension
-...
 
 # Examples
 ```jldoctest
-allN = [10, 50, 100, 200, 400, Int(1e3), Int(3e3), Int(1e4)]
-w = 1 - 0.729
-c1 = 1.5
-c2 = 1.5
-en = 32
-u1 = rand
-u2 = rand
-eta = 1
-sig = 0
-rep = 100
-dim = 5
-
-fobj = sphere
-lb = fill(-100, dim)
-up = fill(100, dim)
-A = repeat(lb, 1, en)
-B = repeat(up, 1, en)
-X_initial = generate_random_matrix(A, B)
-V_initial = generate_random_matrix(-(B-A), B-A)
-
-values, positions = sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb)
+julia> allN = [10, 50, 100, 200, 400, Int(1e3), Int(3e3), Int(1e4)];
+julia> w = 1 - 0.729;
+julia> c1 = 1.5;
+julia> c2 = 1.5;
+julia> en = 32;
+julia> u1 = rand;
+julia> u2 = rand;
+julia> eta = 0.1;
+julia> sig = 0.5;
+julia> fobj = sphere;
+julia> dim = 5;
+julia> lb, up = -100.0, 100.0;
+julia> A, B = matrix_bounds(lb, up, en, dim);
+julia> v, p = sPSO(generate_particles(A, B), generate_velocities(A, B), 
+                        w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb);
 ```
 """
 function sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb)
@@ -74,11 +66,11 @@ function sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up,
 
         inertia = (1 - eta*w) * V
         X_current = view(X, :, :, iternum)
-        social = eta * c1 * u1(n, 1).*(X_current - pbest)
-        cognitive = eta * c2 * u2(n, 1).*(X_current .- view(glbest, :, iternum))
+        cognitive = eta * c1 * u1(n, 1).*(pbest - X_current)
+        social = eta * c2 * u2(n, 1).*(view(glbest, :, iternum) .- X_current)
         noise = sig * eta * randn(n, en)
-        V = inertia - social - cognitive + noise
-        Xposu = X_current + eta * V
+        V = inertia + cognitive + social + noise
+        Xposu = X_current +  V
         Xpos = max.(min.(up, Xposu), lb)
 
         X[:, :, iternum + 1] = Xpos
