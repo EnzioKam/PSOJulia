@@ -32,8 +32,9 @@ Pages = ["functions.md"]
 
 ```@autodocs
 Modules = [PSOJulia]
-Pages = ["ackley.jl", "beale.jl", "bohachevsky1.jl", "bohachevsky2.jl", "bohachevsky3.jl", 
-    "booth.jl", "branin.jl", "bukin6.jl", "colville.jl", "dixonprice.jl", "dropwave.jl", 
-    "easom.jl", "eggholder.jl", "goldsteinprice.jl", "griewank.jl", "matyas.jl", "mccormick.jl", 
-    "michalewicz5.jl", "sphere.jl", "sumsquare.jl"]
+Pages = ["ackley.jl", "beale.jl", "bohachevsky1.jl", "bohachevsky2.jl", "bohachevsky3.jl",
+    "booth.jl", "branin.jl", "bukin6.jl", "colville.jl", "dixonprice.jl", "dropwave.jl",
+    "easom.jl", "eggholder.jl", "goldsteinprice.jl", "griewank.jl", "matyas.jl", "mccormick.jl",
+    "michalewicz5.jl", "perm.jl", "powell.jl", "rastrigin.jl", "rosenbrock.jl", "schaffer2.jl",
+    "schaffer4.jl", "schwefel.jl", "shubert.jl", "sphere.jl", "sumsquare.jl", "trid6.jl", "zakharov.jl"]
 ```
