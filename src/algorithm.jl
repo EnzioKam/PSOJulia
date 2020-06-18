@@ -67,8 +67,8 @@ function sPSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64
 
         inertia = (1 - eta*w) * V
         X_current = view(X, :, :, iternum)
-        cognitive = eta * c1 * u1(n, 1).*(pbest - X_current)
-        social = eta * c2 * u2(n, 1).*(view(glbest, :, iternum) .- X_current)
+        cognitive = eta * c1 * u1(n, en).*(pbest - X_current)
+        social = eta * c2 * u2(n, en).*(view(glbest, :, iternum) .- X_current)
         noise = sig * eta * randn(n, en)
         V = inertia + cognitive + social + noise
         Xposu = X_current +  V
