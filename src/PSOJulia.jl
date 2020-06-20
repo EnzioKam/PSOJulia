@@ -1,7 +1,7 @@
 """
-Main module for `PSOJulia` -- a package to run the PSO and sPSO algorithms.
+Main module for `PSOJulia` -- a package to run the PSO, sPSO and CSO algorithms.
 
-The package contains the code to run PSO, sPSO, and provides a sample list of
+The package contains the code to run PSO, sPSO and CSO, and provides a sample list of
 functions that can be used as objective functions.
 """
 module PSOJulia

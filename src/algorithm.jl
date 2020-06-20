@@ -45,7 +45,8 @@ julia> v2, p2 = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb
 ```
 """
 function sPSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64, c1::Float64,
-                c2::Float64, u1, u2, eta::Float64, sig::Float64, fobj, allN::Vector{Int64}, up, lb, modified::Bool=false)
+              c2::Float64, u1, u2, eta::Float64, sig::Float64, fobj, allN::Vector{Int64}, up, lb,
+              modified::Bool=false)
     sizeN = length(allN)
     N = allN[end]
     bestvaluerec = zeros(sizeN, 1)
@@ -119,7 +120,7 @@ end
 Wrapper function that calls sPSO with eta=1 and sig=0. See [`sPSO`](@ref).
 """
 function PSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64, c1::Float64,
-            c2::Float64, u1, u2, fobj, allN::Vector{Int64}, up, lb,  modified::Bool=false)
+             c2::Float64, u1, u2, fobj, allN::Vector{Int64}, up, lb,  modified::Bool=false)
     return sPSO(X_initial, V_initial, w, c1, c2, u1, u2, 1., 0., fobj, allN, up, lb, modified)
 end
 

@@ -23,8 +23,8 @@ In this case, you should add in an assertion to ensure that the input will confo
 The function definitions and other information are taken with reference from Ab Wahab et. al[^1]
 and Surjanovic and Bingham[^2]. A total of 30 functions from the package are listed below.
 
-[^1]: Ab Wahab MN, Nefti-Meziani S, Atyabi A (2015) A Comprehensive Review of Swarm Optimization Algorithms. *PLoS ONE* 10(5): e0122827. https://doi.org/10.1371/journal.pone.0122827
-[^2]: Surjanovic, S. & Bingham, D. (2013). Virtual Library of Simulation Experiments: Test Functions and Datasets. Retrieved June 4, 2020, from http://www.sfu.ca/~ssurjano.
+[^1]: Ab Wahab MN, Nefti-Meziani S, Atyabi A (2015) A Comprehensive Review of Swarm Optimization Algorithms. *PLoS ONE* 10(5): e0122827. [https://doi.org/10.1371/journal.pone.0122827](https://doi.org/10.1371/journal.pone.0122827)
+[^2]: Surjanovic, S. & Bingham, D. (2013). Virtual Library of Simulation Experiments: Test Functions and Datasets. Retrieved June 4, 2020, from [http://www.sfu.ca/~ssurjano](http://www.sfu.ca/~ssurjano).
 
 ```@index
 Pages = ["functions.md"]

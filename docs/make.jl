@@ -7,7 +7,7 @@ makedocs(
     format = Documenter.HTML(prettyurls = false),
     pages = [
         "index.md",
-        "algorithm.md",
+        "algorithms.md",
         "utilities.md",
         "functions.md"
     ]
