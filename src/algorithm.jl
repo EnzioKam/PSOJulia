@@ -1,7 +1,7 @@
 using Random, Statistics
 
 """
-    sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb)
+    sPSO(X_initial, V_initial, w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb, modified)
 
 Runs the smoothed Particle Swarm Optimisation algorithm on the list of inputs.
 The function returns a vector of recorded global best value estimates, and a matrix
@@ -21,6 +21,7 @@ of their corresponding positions.
 - `allN`: list of iteration numbers to record results at
 - `up`: scalar / vector of upper bounds for each dimension
 - `lb`: scalar / vector of lower bounds for each dimension
+- `modified`: optional argument that determines if two projections are done
 
 # Examples
 ```jldoctest
@@ -39,10 +40,12 @@ julia> lb, up = -100.0, 100.0;
 julia> A, B = matrix_bounds(lb, up, en, dim);
 julia> v, p = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim), 
                     w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb);
+julia> v2, p2 = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim), 
+                    w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb, true);
 ```
 """
 function sPSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64, c1::Float64,
-                c2::Float64, u1, u2, eta::Float64, sig::Float64, fobj, allN::Vector{Int64}, up, lb)
+                c2::Float64, u1, u2, eta::Float64, sig::Float64, fobj, allN::Vector{Int64}, up, lb, modified::Bool=false)
     sizeN = length(allN)
     N = allN[end]
     bestvaluerec = zeros(sizeN, 1)
@@ -70,8 +73,12 @@ function sPSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64
         cognitive = eta * c1 * u1(n, en).*(pbest - X_current)
         social = eta * c2 * u2(n, en).*(view(glbest, :, iternum) .- X_current)
         noise = sig * eta * randn(n, en)
-        V = inertia + cognitive + social + noise
-        Xposu = X_current +  V
+        V = inertia + cognitive + social
+        if modified
+            Xposu = max.(min.(up, X_current + V), lb) + noise
+        else
+            Xposu = X_current + V + noise
+        end
         Xpos = max.(min.(up, Xposu), lb)
 
         X[:, :, iternum + 1] = Xpos
@@ -112,12 +119,12 @@ end
 Wrapper function that calls sPSO with eta=1 and sig=0. See [`sPSO`](@ref).
 """
 function PSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64, c1::Float64,
-            c2::Float64, u1, u2, fobj, allN::Vector{Int64}, up, lb)
-    return sPSO(X_initial, V_initial, w, c1, c2, u1, u2, 1., 0., fobj, allN, up, lb)
+            c2::Float64, u1, u2, fobj, allN::Vector{Int64}, up, lb,  modified::Bool=false)
+    return sPSO(X_initial, V_initial, w, c1, c2, u1, u2, 1., 0., fobj, allN, up, lb, modified)
 end
 
 """
-    CSO(fobj, allN, separable, up, lb)
+    CSO(fobj, allN, separable, up, lb, modified)
 
 Runs the Competitive Swarm Optimiser algorithm on the list of inputs.
 The function returns a vector of recorded global best value estimates, and a matrix
@@ -129,6 +136,8 @@ of their corresponding positions.
 - `separable`: boolean of whether fobj is a separable function
 - `up`: scalar / vector of upper bounds for each dimension
 - `lb`: scalar / vector of lower bounds for each dimension
+- `modified`: optional argument that determines if two projections are done
+- `sig`: standard deviation parameter, optional if modified=false
 
 # Examples
 ```jldoctest
@@ -138,9 +147,11 @@ julia> separable = true;
 julia> up = fill(100., 5)
 julia> lb = -up
 julia> v = CSO(fobj, allN, separable, up, lb);
+julia> v2 = CSO(fobj, allN, separable, up, lb, true);
+julia> v3 = CSO(fobj, allN, separable, up, lb, true, sig=0.02);
 ```
 """
-function CSO(fobj, allN::Vector{Int64}, separable::Bool, up, lb)
+function CSO(fobj, allN::Vector{Int64}, separable::Bool, up, lb, modified::Bool=false, sig::Float64=0.01)
     sizeN = length(allN)
     N = allN[end]
     bestvaluerec = zeros(sizeN, 1)
@@ -222,6 +233,10 @@ function CSO(fobj, allN::Vector{Int64}, separable::Bool, up, lb)
 
         v[:, losers] = randco1.*vlosers + randco2.*(pwinners - plosers) + phi*randco3.*(center .- plosers)
         p[:, losers] += vlosers
+
+        if modified
+            p[:, losers] = max.(min.(up, plosers), lb) + sig*randn(n, m÷2)
+        end
         p[:, losers] = max.(min.(up, plosers), lb)
 
         # v[:, losers] = randco1.*v[:,losers] + randco2.*(p[:,winners] - p[:,losers]) + phi*randco3.*(center .- p[:,losers])
