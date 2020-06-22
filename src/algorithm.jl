@@ -38,9 +38,9 @@ julia> fobj = sphere;
 julia> dim = 5;
 julia> lb, up = -100.0, 100.0;
 julia> A, B = matrix_bounds(lb, up, en, dim);
-julia> v, p = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim), 
+julia> v1, p1 = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim),
                     w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb);
-julia> v2, p2 = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim), 
+julia> v2, p2 = sPSO(generate_particles(lb, up, en, dim), generate_velocities(lb, up, en, dim),
                     w, c1, c2, u1, u2, eta, sig, fobj, allN, up, lb, true);
 ```
 """
@@ -125,11 +125,10 @@ function PSO(X_initial::Matrix{Float64}, V_initial::Matrix{Float64}, w::Float64,
 end
 
 """
-    CSO(fobj, allN, separable, up, lb, modified)
+    CSO(fobj, allN, separable, up, lb, modified, sig)
 
 Runs the Competitive Swarm Optimiser algorithm on the list of inputs.
-The function returns a vector of recorded global best value estimates, and a matrix
-of their corresponding positions.
+The function returns a vector of recorded global best value estimates.
 
 # Arguments
 - `fobj`: objective function to be optimised
@@ -145,9 +144,9 @@ of their corresponding positions.
 julia> allN = [10, 50, 100, 200, 400, Int(1e3), Int(3e3), Int(1e4)];
 julia> fobj = sphere;
 julia> separable = true;
-julia> up = fill(100., 5)
-julia> lb = -up
-julia> v = CSO(fobj, allN, separable, up, lb);
+julia> up = fill(100., 5);
+julia> lb = -up;
+julia> v1 = CSO(fobj, allN, separable, up, lb);
 julia> v2 = CSO(fobj, allN, separable, up, lb, true);
 julia> v3 = CSO(fobj, allN, separable, up, lb, true, sig=0.02);
 ```
