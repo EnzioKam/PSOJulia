@@ -4,7 +4,7 @@ Particle Swarm Optimisation implemented in Julia.
 
 ## Building
 
-Ensure that `Julia` is installed. The current version used is `1.4.2`.
+Ensure that `Julia` is installed. The current version used is `1.5.0`.
 Clone the repository, then enter julia and activate the environment.
 
 ```
@@ -25,3 +25,4 @@ using PSOJulia
 - [ ] Benchmarking
 - [ ] Complete Documentation
 - [ ] Optimisations
+
